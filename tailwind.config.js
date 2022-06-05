@@ -14,6 +14,9 @@ module.exports = {
         tertiary: '#34e6de',
       },
     },
+    screens: {
+      'md2': '850px',
+    }
   },
   plugins: [],
   mode: 'jit',

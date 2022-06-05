@@ -40,7 +40,7 @@ const Home: NextPage = () => {
     function resetBtnTrigger() {
         setTimeout(() => {
             setTriggerBtnAnimation(true);
-        }, 500)
+        }, 200)
     }
 
     if(isLoading) {
@@ -48,41 +48,44 @@ const Home: NextPage = () => {
     }
 
     return (
-        <div className="flex flex-wrap justify-around items-start h-full pt-10 px-4">
-            <div className="flex-auto min-w-[15em] text-center">
-                <p>Weatherforcast</p>
+        <>
+            <div className="flex flex-col items-center justify-start h-auto pt-10 px-4 md2:h-full md2:flex-row md2:flex-wrap md2:justify-around md2:items-start">
+                <div className="flex-auto min-w-[20em] pb-7 md2:pb-0 md2:order-2">
+                    <h2 className="text-3xl font-bold text-white text-center">Welcome back<br/>{user.name}</h2>
+                </div>
+                <div className="flex-auto min-w-[calc(33%-1rem)] min-h-[72px] text-center pb-7 md2:pb-0 md2:order-3">
+                    <Transition
+                        as={Fragment}
+                        show={triggerBtnAnimation}
+                        enter="transform transition duration-[400ms]"
+                        enterFrom="opacity-0 scale-50"
+                        enterTo="opacity-100 scale-100"
+                        leave="transform transition duration-[100ms]"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-50"
+                    >
+                        <button onClick={increaseCounter} disabled={btnCooldownActive} className="relative bg-primary hover:bg-primaryHover disabled:hover:none disabled:bg-gray-500 transition-colors pl-6 pr-7 py-2.5 rounded text-white overflow-hidden">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-linear duration-[30s]"
+                                enterFrom="w-full"
+                                enterTo="w-0"
+                            >
+                                <div className="absolute top-0 left-0 h-full w-0 bg-green-600 z-0"></div>
+                            </Transition.Child>
+                            <p className="z-10 relative">Increase me!</p>
+                            <span className="text-tertiary inline-block min-w-[30px] absolute top-[7px] right-[-6px] text-[.7rem] text-left z-10">{counter}</span>
+                        </button>
+                    </Transition>
+                </div>
+                <div className="flex-auto min-w-[15em] text-center pb-7 md2:pb-0 md2:order-1">
+                    <p>Weatherforcast</p>
+                </div>
             </div>
-            <div className="flex-auto min-w-[20em]">
-                <h2 className="text-3xl font-bold text-white text-center">Welcome back<br/>{user.name}</h2>
-            </div>
-            <div className="flex-auto min-w-[15em] text-center">
-                <Transition
-                    as={Fragment}
-                    show={triggerBtnAnimation}
-                    enter="transform transition duration-[400ms]"
-                    enterFrom="opacity-0 rotate-[-120deg] scale-50"
-                    enterTo="opacity-100 rotate-0 scale-100"
-                    leave="transform duration-200 transition ease-in-out"
-                    leaveFrom="opacity-100 rotate-0 scale-100"
-                    leaveTo="opacity-0 scale-95 "
-                >
-                    <button disabled={btnCooldownActive} className="relative bg-primary hover:bg-primaryHover disabled:hover:none disabled:bg-gray-500 transition-colors pl-6 pr-7 py-2.5 rounded text-white overflow-hidden" onClick={increaseCounter}>
-                        <Transition.Child
-                            //show={btnCooldownActive}
-                            as={Fragment}
-                            enter="ease-linear duration-[30s]"
-                            enterFrom="w-full"
-                            enterTo="w-0"
-                        >
-                            <div className="absolute top-0 left-0 h-full w-0 bg-green-600 z-0"></div>
-                        </Transition.Child>
-                        <p className="z-10 relative">Increase me!</p>
-                        <span className="text-tertiary inline-block min-w-[30px] absolute top-[7px] right-[-6px] text-[.7rem] text-left z-10">{counter}</span>
-                    </button>
-                </Transition>
-            </div>
-        </div>
+            <div>
 
+            </div>
+        </>
     )
 }
 
