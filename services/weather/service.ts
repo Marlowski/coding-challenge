@@ -8,6 +8,7 @@ async function getStaticProps() {
             return data;
         })
         .catch((error) => {
+            console.log(error);
             return error;
         })
 }

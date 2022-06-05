@@ -1,10 +1,11 @@
 import {NextPage} from "next";
 import Image from "next/image";
 import BackgroundImg from '../assets/background-img.jpg'
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import { Transition } from '@headlessui/react'
 import {useRouter} from "next/router";
 import {userService} from "../services/user/service";
+import Link from "next/link";
 
 interface IUser {
     username: string;
@@ -15,6 +16,11 @@ const Login: NextPage = () => {
     const router = useRouter();
     const [loginUserCredentials, setLoginUserCredentials] = useState<IUser>({username: "", password: ""});
     const [wrongInput, setWrongInput] = useState(false);
+    const [isUserCached, setIsUserCached] = useState(false);
+
+    useEffect(() => {
+        setIsUserCached(userService.isUserCached());
+    }, []);
 
     function changeHandler(inputOrigin: String, e: React.FormEvent<HTMLInputElement>) {
         const target = e.target as HTMLInputElement;
@@ -44,30 +50,40 @@ const Login: NextPage = () => {
                 </svg>
                 <h2 className="text-5xl uppercase font-600 text-white mb-7">Login</h2>
                 <div className="w-full relative">
-                    <form className="w-full flex justify-center items-center flex-col">
-                        <div className="mb-6 w-[60%] min-w[300px]">
-                            <input
-                                type="text"
-                                className="input"
-                                id="login-input__username"
-                                placeholder="Username"
-                                onChange={(e) => changeHandler("username", e)}
-                            />
-                        </div>
-                        <div className="mb-6 w-[60%] min-w[300px]">
-                            <input
-                                type="password"
-                                className="input"
-                                id="login-input__password"
-                                placeholder="Password"
-                                onChange={(e) => changeHandler("password", e)}
-                            />
-                        </div>
+                    {!isUserCached
+                        ?
+                        <form className="w-full flex justify-center items-center flex-col">
+                            <div className="mb-6 w-[60%] min-w[300px]">
+                                <input
+                                    type="text"
+                                    className="input"
+                                    id="login-input__username"
+                                    placeholder="Username"
+                                    onChange={(e) => changeHandler("username", e)}
+                                />
+                            </div>
+                            <div className="mb-6 w-[60%] min-w[300px]">
+                                <input
+                                    type="password"
+                                    className="input"
+                                    id="login-input__password"
+                                    placeholder="Password"
+                                    onChange={(e) => changeHandler("password", e)}
+                                />
+                            </div>
 
-                        <div className="text-center lg:text-left w-[40%] min-w[200px] mt-3">
-                            <input type="submit" value="Login" onClick={submitHandler} className="btn w-full bg-secondary cursor-pointer" />
+                            <div className="text-center lg:text-left w-[40%] min-w[200px] mt-3">
+                                <input type="submit" value="Login" onClick={submitHandler} className="btn w-full bg-secondary cursor-pointer" />
+                            </div>
+                        </form>
+                        :
+                        <div className="flex flex-col items-center">
+                            <p className="text-center text-white text-xl">You're already logged in.</p>
+                            <Link href="/">
+                                <a className="btn mt-6">Home</a>
+                            </Link>
                         </div>
-                    </form>
+                    }
                     <Transition
                         show={wrongInput}
                         as={Fragment}

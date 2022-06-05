@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 
         setWeatherLoadingStatus(true);
         weatherService.getStaticProps().then((res) => {
-            if(res.cod === 401) {
+            if(res.cod === 401 && res.error === undefined) {
                 const temp = "27.77";
                 setWeatherData({temp: Number(temp).toFixed(1)});
                 //setWeatherData({temp: (res.main.temp).toFixed(1)});
