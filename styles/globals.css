@@ -32,3 +32,7 @@ a {
 .input {
   @apply w-full block px-4 py-1.5 text-lg font-normal text-gray-700 bg-white bg-clip-padding border-none transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none;
 }
+
+.slider-btn {
+  @apply disabled:bg-gray-700 disabled:hover:opacity-30 opacity-30 hover:opacity-100 transition-opacity absolute top-[20%] lg:top-[50%] lg:translate-y-[-50%] z-10 rounded-full bg-primary w-[30px] h-[30px] pb-[2px] text-white
+}

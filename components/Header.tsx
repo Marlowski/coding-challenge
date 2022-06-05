@@ -13,7 +13,7 @@ export default function Header() {
         userService.logout();
     }
 
-    return(
+    return (
         <nav className="flex items-center justify-between flex-wrap bg-primary p-4 z-50 relative min-h-[70px]">
             <div className="flex items-center flex-shrink-0 text-white mr-7">
                 <svg className="fill-white -mb-1 mr-1" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="20" height="20">

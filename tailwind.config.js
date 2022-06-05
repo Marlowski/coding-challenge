@@ -13,10 +13,10 @@ module.exports = {
         secondary: '#151515',
         tertiary: '#34e6de',
       },
+      screens: {
+        'md2': '850px',
+      },
     },
-    screens: {
-      'md2': '850px',
-    }
   },
   plugins: [],
   mode: 'jit',

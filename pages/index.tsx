@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 import FullPageLoader from "../components/LoadingSpinner/FullPageLoader";
 import {userService} from "../services/user/service";
 import { Transition } from '@headlessui/react'
+import Carousel from "../components/Carousel";
 
 const Home: NextPage = () => {
     const router = useRouter();
@@ -49,13 +50,12 @@ const Home: NextPage = () => {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-start h-auto pt-10 px-4 md2:h-full md2:flex-row md2:flex-wrap md2:justify-around md2:items-start">
+            <div className="flex flex-col items-center justify-start h-auto pt-10 px-4 mb-[80px] mt-[20px] md2:flex-row md2:flex-wrap md2:justify-around md2:items-start">
                 <div className="flex-auto min-w-[20em] pb-7 md2:pb-0 md2:order-2">
-                    <h2 className="text-3xl font-bold text-white text-center">Welcome back<br/>{user.name}</h2>
+                    <h2 className="text-3xl font-bold text-white text-center lg:text-5xl">Welcome back<br/>{user.name}</h2>
                 </div>
                 <div className="flex-auto min-w-[calc(33%-1rem)] min-h-[72px] text-center pb-7 md2:pb-0 md2:order-3">
                     <Transition
-                        as={Fragment}
                         show={triggerBtnAnimation}
                         enter="transform transition duration-[400ms]"
                         enterFrom="opacity-0 scale-50"
@@ -82,8 +82,8 @@ const Home: NextPage = () => {
                     <p>Weatherforcast</p>
                 </div>
             </div>
-            <div>
-
+            <div className="mb-[50px] w-full pl-[10px] flex flex-col items-center relative">
+                <Carousel />
             </div>
         </>
     )
