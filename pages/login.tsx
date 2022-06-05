@@ -4,7 +4,7 @@ import BackgroundImg from '../public/assets/background-img.jpg'
 import React, {Fragment, useEffect, useState} from "react";
 import { Transition } from '@headlessui/react'
 import {useRouter} from "next/router";
-import {userService} from "../services/user/service";
+import {useUser} from "../context/user";
 import Link from "next/link";
 
 interface IUser {
@@ -13,13 +13,14 @@ interface IUser {
 }
 
 const Login: NextPage = () => {
+    const { login, isUserCached } = useUser();
     const router = useRouter();
     const [loginUserCredentials, setLoginUserCredentials] = useState<IUser>({username: "", password: ""});
     const [wrongInput, setWrongInput] = useState(false);
-    const [isUserCached, setIsUserCached] = useState(false);
+    const [isUserCachedState, setIsUserCachedState] = useState(false);
 
     useEffect(() => {
-        setIsUserCached(userService.isUserCached());
+        setIsUserCachedState(isUserCached());
     }, []);
 
     function changeHandler(inputOrigin: String, e: React.FormEvent<HTMLInputElement>) {
@@ -34,7 +35,7 @@ const Login: NextPage = () => {
     function submitHandler(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         setWrongInput(false);
-        if(userService.login(loginUserCredentials.username, loginUserCredentials.password)) {
+        if(login(loginUserCredentials.username, loginUserCredentials.password)) {
             router.push('/');
         } else {
             setWrongInput(true);
@@ -42,7 +43,7 @@ const Login: NextPage = () => {
     }
 
     return(
-        <section className="h-full flex justify-center items-center py-7">
+        <section className="relative h-full flex justify-center items-center py-7">
             <Image className="opacity-60" src={BackgroundImg} alt="Background image showing a code editor with code" layout="fill" />
             <div className="h-full w-[550px] max-w-[95%] h-[80%] min-h-[400px] max-h-[700px] flex flex-col items-center justify-center p-4 shadow-md bg-primary bg-opacity-80 z-10">
                 <svg className="fill-white rounded-full bg-secondary p-2 mb-4" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="40" height="40">
@@ -50,7 +51,7 @@ const Login: NextPage = () => {
                 </svg>
                 <h2 className="text-5xl uppercase font-600 text-white mb-7">Login</h2>
                 <div className="w-full relative">
-                    {!isUserCached
+                    {!isUserCachedState
                         ?
                         <form className="w-full flex justify-center items-center flex-col">
                             <div className="mb-6 w-[60%] min-w[300px]">

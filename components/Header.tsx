@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import {useEffect, useState} from "react";
-import {userService} from "../services/user/service";
+import {useUser} from "../context/user";
 
 export default function Header() {
     const[isUserCachedState, setUserCachedState] = useState(false);
+    const { user, logout, isUserCached } = useUser();
 
     useEffect(() => {
-       setUserCachedState(userService.isUserCached());
-    }, []);
+        setUserCachedState(isUserCached());
+    }, [user, logout]);
 
     function handleLogout() {
-        userService.logout();
+        logout();
     }
 
     return (

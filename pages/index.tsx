@@ -1,33 +1,33 @@
 import type { NextPage } from 'next'
 import {Fragment, useEffect, useState} from "react";
-import {useRouter} from "next/router";
 import FullPageLoader from "../components/LoadingSpinner/FullPageLoader";
-import {userService} from "../services/user/service";
 import { Transition } from '@headlessui/react'
 import Carousel from "../components/Carousel";
 import {weatherService} from "../services/weather/service";
 import LoadingSpinner from "../components/LoadingSpinner";
 import usePush from "../helper/routerWorkaround";
+import {useUser} from "../context/user";
 
 const Home: NextPage = () => {
     const push = usePush();
+    const { isUserCached, user } = useUser();
     const [isLoading, setLoadingStatus] = useState(true);
     const [weatherIsLoading, setWeatherLoadingStatus] = useState(false);
     const [weatherData, setWeatherData] = useState({temp: "--"});
-    const [user, setUser] = useState({id: "", username: "", password: "", name: ""});
+    const [userElem, setUserElem] = useState({id: "", username: "", password: "", name: ""});
     const [counter, setCounter] = useState(0);
     const [btnCooldownActive, setBtnCooldown] = useState(false);
     const [triggerBtnAnimation, setTriggerBtnAnimation] = useState(true)
 
     //componentDidMount (currently fires twice cause of strict mode)
     useEffect(() => {
-        if(!userService.isUserCached()) {
+        if(!isUserCached()) {
             push('/login');
         } else {
             setLoadingStatus(false);
-            const userElem: string | null = userService.getUser();
+            const userElem: string | null = user;
             if (userElem !== null) {
-                setUser(JSON.parse(userElem));
+                setUserElem(JSON.parse(userElem));
             }
         }
 
@@ -67,7 +67,7 @@ const Home: NextPage = () => {
         <>
             <div className="flex flex-col items-center justify-start h-auto pt-10 px-4 mb-[80px] mt-[20px] lg:flex-row lg:flex-wrap lg:justify-around lg:items-start">
                 <div className="flex-[1_1_33%] min-w-[20em] pb-7 lg:pb-0 lg:order-2">
-                    <h2 className="text-4xl font-bold text-white text-center lg:text-5xl">Welcome back<br/>{user.name}</h2>
+                    <h2 className="text-4xl font-bold text-white text-center lg:text-5xl">Welcome back<br/>{userElem.name}</h2>
                 </div>
                 <div className="flex-[1_1_33%] min-w-[calc(33%-1rem)] min-h-[72px] text-center pb-7 lg:pb-0 lg:order-3">
                     <Transition
