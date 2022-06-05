@@ -8,7 +8,7 @@ export default function Header() {
 
     useEffect(() => {
         setUserCachedState(isUserCached());
-    }, [user, logout]);
+    }, [user, logout, isUserCached]);
 
     function handleLogout() {
         logout();

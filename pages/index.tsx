@@ -40,7 +40,7 @@ const Home: NextPage = () => {
             }
             setWeatherLoadingStatus(false);
         });
-    }, []);
+    }, [isUserCached, push, user]);
 
     function increaseCounter() {
         setTriggerBtnAnimation(false);

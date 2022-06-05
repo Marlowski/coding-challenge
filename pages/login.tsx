@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 import Image from "next/image";
-import BackgroundImg from '../public/assets/background-img.jpg'
+import BackgroundImg from '/public/assets/background-img.jpg'
 import React, {Fragment, useEffect, useState} from "react";
 import { Transition } from '@headlessui/react'
 import {useRouter} from "next/router";
@@ -21,7 +21,7 @@ const Login: NextPage = () => {
 
     useEffect(() => {
         setIsUserCachedState(isUserCached());
-    }, []);
+    }, [isUserCached]);
 
     function changeHandler(inputOrigin: String, e: React.FormEvent<HTMLInputElement>) {
         const target = e.target as HTMLInputElement;
