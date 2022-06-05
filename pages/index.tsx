@@ -7,9 +7,10 @@ import { Transition } from '@headlessui/react'
 import Carousel from "../components/Carousel";
 import {weatherService} from "../services/weather/service";
 import LoadingSpinner from "../components/LoadingSpinner";
+import usePush from "../helper/routerWorkaround";
 
 const Home: NextPage = () => {
-    const router = useRouter();
+    const push = usePush();
     const [isLoading, setLoadingStatus] = useState(true);
     const [weatherIsLoading, setWeatherLoadingStatus] = useState(false);
     const [weatherData, setWeatherData] = useState({temp: "--"});
@@ -21,7 +22,7 @@ const Home: NextPage = () => {
     //componentDidMount (currently fires twice cause of strict mode)
     useEffect(() => {
         if(!userService.isUserCached()) {
-            router.push('/login');
+            push('/login');
         } else {
             setLoadingStatus(false);
             const userElem: string | null = userService.getUser();

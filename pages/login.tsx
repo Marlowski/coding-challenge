@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 import Image from "next/image";
-import BackgroundImg from '../assets/background-img.jpg'
+import BackgroundImg from '../public/assets/background-img.jpg'
 import React, {Fragment, useEffect, useState} from "react";
 import { Transition } from '@headlessui/react'
 import {useRouter} from "next/router";
@@ -78,7 +78,7 @@ const Login: NextPage = () => {
                         </form>
                         :
                         <div className="flex flex-col items-center">
-                            <p className="text-center text-white text-xl">You're already logged in.</p>
+                            <p className="text-center text-white text-xl">You&apos;re already logged in.</p>
                             <Link href="/">
                                 <a className="btn mt-6">Home</a>
                             </Link>

@@ -1,6 +1,7 @@
 import data from '../data/carouselContentList.json';
 import {useEffect, useRef, useState} from "react";
 import {randomColor} from "../helper/randomColor";
+import Image from "next/image";
 
 export default function Carousel() {
     const maxScrollWidth = useRef(0);
@@ -66,8 +67,8 @@ export default function Carousel() {
                 {data.map((elem, index) => {
                     return (
                         <div key={index} className="min-w-[calc(100%-10px)] sm:min-w-[300px] min-h-[400px] shadow-md bg-primary snap-start">
-                            <div className="h-[350px] sm:h-[200px] overflow-hidden">
-                                <img src={elem.imgUrl} alt={elem.headline + " Impression"} className="min-w-full h-full" />
+                            <div className="relative h-[350px] sm:h-[200px] overflow-hidden">
+                                <Image src={elem.imgUrl} alt={elem.headline + " Impression"} width="100%" height="100%" layout="responsive" className="min-w-full h-full" />
                             </div>
                             <div className="px-4 mt-6 pb-6">
                                 <h3 style={{color: setHeaderColor(index)}} className="text-2xl font-bold mb-0.5">{elem.headline}</h3>

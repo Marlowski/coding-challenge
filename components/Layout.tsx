@@ -5,7 +5,7 @@ type LayoutProp = {
     children: ReactNode,
 }
 
-export default function ({ children }: LayoutProp) {
+export default function Layout({ children }: LayoutProp) {
     return(
         <>
             <Header />

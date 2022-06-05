@@ -7,7 +7,7 @@ export default function Header() {
 
     useEffect(() => {
        setUserCachedState(userService.isUserCached());
-    });
+    }, []);
 
     function handleLogout() {
         userService.logout();
@@ -23,7 +23,7 @@ export default function Header() {
             </div>
             <div className="flex-grow flex items-center w-auto">
                 <div className="text-sm flex-grow -mb-1">
-                    <a href="https://github.com/Marlowski/coding-challenge" target="_blank" className="mt-4 inline-block btn-secondary">Repository</a>
+                    <a href="https://github.com/Marlowski/coding-challenge" target="_blank" rel="noreferrer" className="mt-4 inline-block btn-secondary">Repository</a>
                 </div>
                 <div>
                     {isUserCachedState &&
