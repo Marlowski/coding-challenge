@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useState} from 'react';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {userService} from "../services/user/service";
 
 type LayoutProp = {
@@ -27,6 +27,12 @@ export function useUser() {
 
 export function UserProvider({ children }: LayoutProp) {
     const [user, setUser] = useState<string | null>(null);
+
+    useEffect(() => {
+       if(user === null && userService.isUserCached()) {
+           setUser(userService.getUser());
+       }
+    }, [user]);
 
     const login = (username: string, password: string) => {
         if(userService.login(username, password)) {

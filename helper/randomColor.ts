@@ -1,13 +1,43 @@
-export function randomColor(): string {
-    const color = HSVtoRGB(randInt(101)/100);
-    return `rgb(${color.r},${color.g},${color.b})`;
+/**
+ * Trying a complete random approach instead of cycling
+ * through a fixed color palette. using a similarity check to
+ * drastically reduce times where the new color looks very
+ * similiar to the old one
+ * @param {string} currentColor currently set color
+ * @return {string} new Color
+ */
+export function randomColor(currentColor: string): string {
+    let newColor: { r:number, g:number, b:number };
+    const oldColor = stringRGBToJson(currentColor);
+
+    let isSimiliar: boolean
+    do {
+        newColor = HSVtoRGB(randInt(101)/100);
+        isSimiliar = checkSimilarity(newColor, oldColor);
+    } while (!isSimiliar);
+    return `rgb(${newColor.r},${newColor.g},${newColor.b})`;
+}
+
+function stringRGBToJson(input: string) {
+    const inputAsArray = input.replace(/[^\d,]/g, '').split(',');
+    return {r: Number(inputAsArray[0]), g: Number(inputAsArray[1]), b: Number(inputAsArray[2])};
 }
 
 function randInt(range: number): number {
     return Math.floor(Math.random() * range);
 }
 
+function checkSimilarity(newColor: { r: number, g:number, b:number }, oldColor: { r: number, g:number, b:number }) {
+    const sumOldColor = oldColor.r + oldColor.g + oldColor.b;
+    const sumNewColor = newColor.r + newColor.g + newColor.b;
+    if(oldColor.r === newColor.r || oldColor.g === newColor.g || oldColor.b === newColor.b) {
+        return false;
+    }
+    return sumNewColor - sumOldColor >= 50 || sumNewColor - sumOldColor <= -50;
+}
+
 //HSV usage for a biger possible color spectrum
+//boldy stolen code
 function HSVtoRGB(h: number) {
     const s = 0.99;
     const v = 0.99;

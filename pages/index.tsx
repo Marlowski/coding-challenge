@@ -7,6 +7,7 @@ import {weatherService} from "../services/weather/service";
 import LoadingSpinner from "../components/LoadingSpinner";
 import usePush from "../helper/routerWorkaround";
 import {useUser} from "../context/user";
+import {userService} from "../services/user/service";
 
 const Home: NextPage = () => {
     const push = usePush();
