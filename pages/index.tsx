@@ -19,7 +19,6 @@ const Home: NextPage = () => {
     const [btnCooldownActive, setBtnCooldown] = useState(false);
     const [triggerBtnAnimation, setTriggerBtnAnimation] = useState(true)
 
-    //componentDidMount (currently fires twice cause of strict mode)
     useEffect(() => {
         if(!isUserCached()) {
             push('/login');
@@ -30,17 +29,19 @@ const Home: NextPage = () => {
                 setUserElem(JSON.parse(userElem));
             }
         }
+    }, [isUserCached, push, user]);
 
+    //componentDidMount (currently fires twice cause of strict mode)
+    useEffect(() => {
         setWeatherLoadingStatus(true);
         weatherService.getStaticProps().then((res) => {
-            if(res.cod === 401 && res.error === undefined) {
-                const temp = "27.77";
-                setWeatherData({temp: Number(temp).toFixed(1)});
+            if(res.cod === 200 && res.error === undefined) {
+                setWeatherData({temp: Number(res.main.temp).toFixed(1)});
                 //setWeatherData({temp: (res.main.temp).toFixed(1)});
             }
             setWeatherLoadingStatus(false);
         });
-    }, [isUserCached, push, user]);
+    }, []);
 
     function increaseCounter() {
         setTriggerBtnAnimation(false);
