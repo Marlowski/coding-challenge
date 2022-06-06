@@ -9,7 +9,7 @@
 you can use `docker -v` in your commandline to get the current version of the installed Docker.<br>
 If not installed follow the instructions on [this page](https://docs.docker.com/get-docker/) for your respective os.
 <br><br>
-4. Since this projects uses a docker composer file these two steps **can be skipped**<br><br>
+4. Since this projects uses a docker compose file these two steps **can be skipped**<br><br>
 ~~`docker build . -t DOCKER_PROJECT_NAME`<br>~~
 ~~`docker run -e 3000:3000 DOCKER_PROJECT_NAME`~~
 <br><br>
@@ -18,7 +18,7 @@ Instead you only need to run<br>
 
 
 In the Docker composer file the port 3000 got declared, therefor you can access the application
-via [http://localhost:3000](http://localhost:3000) after the Docker composer finished the build.
+via [http://localhost:3000](http://localhost:3000) after the Docker compose finished the build.
 
 ### The login credentials are as followed:
 **username:** user<br>
