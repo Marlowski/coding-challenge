@@ -47,16 +47,10 @@ export default function Carousel() {
             : 0;
     }, []);
 
-    function setHeaderColor(index: number): string {
-        return  colorSet[index];
-    }
-
-    function genColorSet() {
-        const newSet = new Array<string>(data.length);
-        for(let i=0; i<=data.length; i++) {
-            newSet[i] = randomColor();
-        }
-        setColorSet(newSet);
+    function genColorSet(index: number) {
+        const currentColorSet = colorSet;
+        currentColorSet[index] = randomColor(currentColorSet[index]);
+        setColorSet([...currentColorSet]);
     }
 
     return (
@@ -71,11 +65,11 @@ export default function Carousel() {
                                 <Image src={elem.imgUrl} alt={elem.headline + " Impression"} width="100%" height="100%" layout="responsive" className="min-w-full h-full" />
                             </div>
                             <div className="px-4 mt-6 pb-6">
-                                <h3 style={{color: setHeaderColor(index)}} className="text-2xl font-bold mb-0.5">{elem.headline}</h3>
+                                <h3 style={{color: colorSet[index]}} className="text-2xl font-bold mb-0.5">{elem.headline}</h3>
                                 <p className="leading-5 min-h-[150px] sm:min-h-[200px]">{elem.text}</p>
                             </div>
                             <div className="w-full flex justify-center">
-                                <button onClick={genColorSet} className="w-[80%] mx-5 mb-5 text-white py-2 bg-secondary rounded hover:bg-gray-700 transition-colors">Click Me</button>
+                                <button onClick={() => genColorSet(index)} className="w-[80%] mx-5 mb-5 text-white py-2 bg-secondary rounded hover:bg-gray-700 transition-colors">Click Me</button>
                             </div>
                         </div>
                     )

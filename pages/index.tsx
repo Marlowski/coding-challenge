@@ -1,13 +1,11 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import {Fragment, useEffect, useState} from "react";
 import FullPageLoader from "../components/LoadingSpinner/FullPageLoader";
-import { Transition } from '@headlessui/react'
+import {Transition} from '@headlessui/react'
 import Carousel from "../components/Carousel";
-import {weatherService} from "../services/weather/service";
 import LoadingSpinner from "../components/LoadingSpinner";
 import usePush from "../helper/routerWorkaround";
 import {useUser} from "../context/user";
-import {userService} from "../services/user/service";
 
 const Home: NextPage = () => {
     const push = usePush();
@@ -35,14 +33,24 @@ const Home: NextPage = () => {
     //componentDidMount (currently fires twice cause of strict mode)
     useEffect(() => {
         setWeatherLoadingStatus(true);
-        weatherService.getStaticProps().then((res) => {
-            if(res.cod === 200 && res.error === undefined) {
-                setWeatherData({temp: Number(res.main.temp).toFixed(1)});
-                //setWeatherData({temp: (res.main.temp).toFixed(1)});
-            }
-            setWeatherLoadingStatus(false);
-        });
+        getWeatherData()
+            .then((res) => {
+                if(res.cod === 200) {
+                    setWeatherData({temp: Number(res.main.temp).toFixed(1)});
+                }
+                setWeatherLoadingStatus(false)
+            });
     }, []);
+
+    async function getWeatherData() {
+        const res = await fetch("/api/weather", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "GET",
+        });
+        return await res.json();
+    }
 
     function increaseCounter() {
         setTriggerBtnAnimation(false);
