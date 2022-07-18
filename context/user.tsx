@@ -1,31 +1,25 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {userService} from "../services/user/service";
 
+
 type LayoutProp = {
     children: ReactNode,
 }
 
-type userContextType = {
-    user: string | null;
-    login: (username: string, password: string) => boolean;
-    logout: () => void;
-    isUserCached: () => boolean;
-}
-
-const userContextDefault: userContextType = {
+const userContextDefault: CodingChallengeUserSessionContext = {
     user: null,
     login: () => { return false; },
     logout: () => {},
-    isUserCached: () => { return false; }
+    isCached: () => { return false; },
 }
 
-const UserContext = createContext<userContextType>(userContextDefault);
+const UserContext = createContext<CodingChallengeUserSessionContext>(userContextDefault);
 
-export function useUser() {
+function useUser() {
     return useContext(UserContext);
 }
 
-export function UserProvider({ children }: LayoutProp) {
+function UserProvider({ children }: LayoutProp) {
     const [user, setUser] = useState<string | null>(null);
 
     useEffect(() => {
@@ -43,23 +37,30 @@ export function UserProvider({ children }: LayoutProp) {
         }
     };
 
-    const isUserCached = () => {
-        return userService.isUserCached();
-    }
-
     const logout = () => {
         userService.logout();
         setUser(null);
     };
 
+    //if trying to check cached state via user it will initialy return null,
+    //since both hooks appear to fire at the same time so the user elem isnt overwritten in time
+    const isCached = () => {
+        return userService.isUserCached();
+    }
+
     const value = {
         user,
         login,
         logout,
-        isUserCached,
+        isCached,
     };
 
     return (
         <UserContext.Provider value={value}>{children}</UserContext.Provider>
     )
+}
+
+export {
+    useUser,
+    UserProvider
 }

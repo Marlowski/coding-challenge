@@ -1,18 +1,7 @@
 import Link from 'next/link';
-import {useEffect, useState} from "react";
-import {useUser} from "../context/user";
+import React from "react";
 
-export default function Header() {
-    const[isUserCachedState, setUserCachedState] = useState(false);
-    const { user, logout, isUserCached } = useUser();
-
-    useEffect(() => {
-        setUserCachedState(isUserCached());
-    }, [user, logout, isUserCached]);
-
-    function handleLogout() {
-        logout();
-    }
+export default function Header({ userObject, logoutFunc }: HeaderMainProps) {
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-primary p-4 z-50 relative min-h-[70px]">
@@ -27,9 +16,9 @@ export default function Header() {
                     <a href="https://github.com/Marlowski/coding-challenge" target="_blank" rel="noreferrer" className="mt-4 inline-block btn-secondary">Repository</a>
                 </div>
                 <div>
-                    {isUserCachedState &&
+                    {userObject != null &&
                         <Link href="/login">
-                            <a className="btn" onClick={handleLogout}>Logout</a>
+                            <a className="btn" onClick={logoutFunc}>Logout</a>
                         </Link>
                     }
                 </div>
